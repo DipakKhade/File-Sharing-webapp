@@ -18,7 +18,7 @@ router.post('/',(req,res)=>{
         ,
 
         filename:(req,file,callback)=>{
-            const fileName=`${Date.now()}-${Math.round((Math.random)*100000)}-${path.extname(file.originalname)}`
+            const fileName=`${Date.now()}-${Math.round(Math.random()*100000)}${path.extname(file.originalname)}`
             callback(null,fileName)
         }
     })
@@ -42,18 +42,19 @@ router.post('/',(req,res)=>{
         res.status(500).send({error: err.massage})
     }
 
+    
     //else we store file in database
     const file =new File({
-        fileSize:req.file.filename,
+        filename:req.file.filename,   
 uuid:v4(),
 path:req.file.path,
 size:req.file.size
 
-    })
+})
+// console.log(path)
     
     const responce = await file.save();
-    return res.json({file:`${process.env.APP_BASE_URL}/files/${responce.uuid}`})
-    // console.log(responce)
+    return res.json({file:`${process.env.APP_BASE_URL}/files/${file.uuid}`})
 })
 })
 

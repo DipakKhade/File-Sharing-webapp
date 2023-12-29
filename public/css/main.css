@@ -1,0 +1,12 @@
+.container{
+    width: 30vw;
+    height: 40vh;
+    border: 2px solid black;
+    margin: auto;
+    margin-top: 30vh;
+
+}
+
+.item1 svg{
+    margin-left: 40%;
+}
