@@ -75,3 +75,4 @@ size:req.file.size
 })
 })
 
+export default router;
