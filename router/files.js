@@ -4,6 +4,9 @@ import path from 'path'
 import File from '../models/file.js' 
 import {v4} from 'uuid'
 
+// import sendMail from '../mail/email.js';
+// import emailTemp from '../mail/emailTemp.js'
+
 import { config } from 'dotenv';
 config();
 
@@ -54,8 +57,61 @@ size:req.file.size
 // console.log(path)
     
     const responce = await file.save();
-    return res.json({file:`${process.env.APP_BASE_URL}/files/${file.uuid}`})
+    res.redirect(`${process.env.APP_BASE_URL}/files/${file.uuid}`);
+
+    
+    // return res.json(
+    //     {
+    //         // file:`${process.env.APP_BASE_URL}/files/${file.uuid}`,
+    //     downloadlink:`${process.env.APP_BASE_URL}/files/${file.uuid}`
+    // }
+    
+    // )
+
+
+
+    
+
 })
 })
 
+
+//email fields
+router.post('/send',async(req,res)=>{
+    const {uuid , sender , recevier} = req.body
+
+    if(!uuid || !sender || !recevier){
+        res.send({error:'fill all fields'})
+    }
+
+    const file=File.findOne({uuid:uuid})
+
+    if(sender){
+        res.send({error:'emali is already sent'})
+    }
+
+    file.sender=body.sender
+    file.recevier=body.recevier
+
+    const responce = await file.save()
+
+
+
+    //sending email to recevier
+// sendMail({
+//     from : sender,
+//     to: recevier,
+//     subject:'This is a subject ',
+//     text:`File from ${sender}`,
+//     html:emailTemp({
+//         emailsender : sender,
+//         downloadLink:`${APP_BASE_URL}/files/${file.uuid}`,
+//         size:`${parseInt(file.size/1000)}kb`,
+//         expires:'48 hours'
+//     })
+// })
+
+})
+
 export default  router ;
+

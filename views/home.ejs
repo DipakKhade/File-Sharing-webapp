@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>file share</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+      
+           
+            height: 100vh;
+            margin: 0;
+        }
+
+        #drop-area {
+            border: 2px dashed #ccc;
+            padding: 20px;
+            text-align: center;
+        }
+
+        #file-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .file-item {
+            margin: 5px 0;
+        }
+
+.btn button{
+  margin: 34px 23px 23px 23px;  
+  cursor:pointer;
+}
+
+
+.navbar {
+    background-color: #333;
+    overflow: hidden;
+}
+
+.navbar a {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+.navbar a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.content {
+    padding: 16px;
+}
+
+
+@media only screen and (max-width: 767px) {
+  #drop-area{
+    width: 75vw;
+    margin-top: 10vh;
+    margin-left: 15px;
+  }
+}
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <a href="/">Home</a>
+        
+        <a href="https://protfolio-with-next-js-dfx1.vercel.app/">PortFoilo</a>
+    </div>
+    
+    <div class="content">
+        <h1>Sharing Files, Simplified.</h1>
+        <a href="https://protfolio-with-next-js-dfx1.vercel.app/">@Dipak Khade</a>
+    </div>
+    
+
+    <div id="drop-area">
+        <h3>Drag and Drop File Here</h3>
+        <p>or</p>
+        <form id="uploadForm" action="/api/files" method="post" enctype="multipart/form-data">
+            <input type="file" name="sendfile" id="fileInput">
+            <div class="btn">
+            <button type="submit">Upload</button>
+        </div>
+        </form>
+        
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const dropArea = document.getElementById('drop-area');
+            const fileInput = document.getElementById('fileInput');
+            const fileList = document.getElementById('file-list');
+
+            dropArea.addEventListener('dragover', (event) => {
+                event.preventDefault();
+                dropArea.classList.add('active');
+            });
+
+            dropArea.addEventListener('dragleave', () => {
+                dropArea.classList.remove('active');
+            });
+
+            dropArea.addEventListener('drop', (event) => {
+                event.preventDefault();
+                dropArea.classList.remove('active');
+                handleFiles(event.dataTransfer.files);
+            });
+
+            fileInput.addEventListener('change', (event) => {
+                handleFiles(event.target.files);
+            });
+
+            function handleFiles(files) {
+                fileList.innerHTML = ''; // Clear previous file list
+
+                for (const file of files) {
+                    const listItem = document.createElement('li');
+                    listItem.className = 'file-item';
+                    listItem.textContent = file.name;
+                    fileList.appendChild(listItem);
+                }
+            }
+        });
+
+
+        
+    </script>
+
+</body>
+</html>
